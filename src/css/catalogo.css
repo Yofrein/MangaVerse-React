@@ -1,0 +1,130 @@
+/*Encabezado*/
+.titulo-seccion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #313131;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.titulo-seccion span {
+    font-family: 'Font1', sans-serif;
+    color: white;
+    font-size: 300%;
+    font-weight: bold;
+}
+
+/*Contenedor General*/
+.seccion-catalogo {
+    background-color: #646464;
+    padding: 40px 20px;
+    min-height: 80vh;
+}
+
+.contenedor-catalogo {
+    display: flex;
+    gap: 30px;
+    max-width: 1250px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/*Panel de Filtros*/
+.panel-filtros {
+    background-color: #222;
+    border-radius: 10px;
+    width: 240px;
+    min-height: 400px;
+    flex-shrink: 0;
+}
+
+.panel-filtros h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding-bottom: 8px;
+    text-align: center;
+    color: #fdfdfd;
+}
+
+.panel-filtros h2 {
+    font-size: 20px;
+    padding-bottom: 8px;
+    text-align: left;
+    color: #fdfdfd;
+}
+
+/*Espaciado del grupo dentro del panel*/
+.grupo-filtro {
+    padding: 20px;
+    color: white;
+}
+
+/*Estilo para la barra desplegable*/
+.desplegable-filtro {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/*Mangas a la derecha*/
+.catalogo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    width: 100%;
+}
+
+/*Tarjeta de Manga (Catálogo)*/
+.card-manga {
+    background-color: white;
+    color: black;
+    padding: 12px 8px;
+    border-radius: 10px;
+    text-align: center;
+    height: fit-content;
+}
+
+.card-manga img {
+    width: 120px;
+    height: 170px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.card-manga h3 {
+    font-size: 15px;
+    color: black;
+    margin: 5px 0;
+}
+
+.card-manga .precio {
+    font-size: 14px;
+    color: #444;
+    margin: 0 0 8px;
+    font-weight: bold;
+}
+
+/* Botón "Añadir al carrito" idéntico al de más vendidos del index */
+.card-manga .anadir-carrito {
+    background-color: #313131;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 15px;
+    padding: 8px 0;
+    white-space: nowrap;
+}
+
+.card-manga .anadir-carrito:hover {
+    background-color: rgb(128, 44, 206);
+}

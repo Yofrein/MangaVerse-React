@@ -1,0 +1,139 @@
+@import url("menu.css");
+@import url("carrito.css");
+@import url("index.css");
+@import url("login.css");
+@import url("cabecera.css");
+@import url("quienes-somos.css");
+@import url("catalogo.css");
+@import url("pie.css");
+
+@font-face {
+    font-family: 'Font1';
+    src: url('../fonts/Font1.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Font1', Consolas, sans-serif;
+}
+
+body {
+    background-color: rgb(29, 28, 28);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+
+.header {
+    background-color: rgb(216, 216, 216);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.logo {
+    height: 170px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    margin-top: -40px;
+    margin-bottom: -20px;
+}
+
+.metricas {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+/*----------------------- Toast Notification Flotante -----------------------*/
+
+.toast-notificacion {
+    position: fixed;
+    top: 20px;
+    right: -350px; /* Oculto fuera de la pantalla por defecto */
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 15px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    border-left: 5px solid rgb(128, 44, 206); /* Borde morado de acento */
+    z-index: 1000;
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animación elástica */
+}
+
+.toast-notificacion.mostrar {
+    right: 20px; /* Se desliza hacia adentro */
+}
+
+.toast-icono {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    filter: invert(0%); /* Mantiene sus colores reales */
+}
+
+.toast-mensaje {
+    display: flex;
+    flex-direction: column;
+}
+
+.toast-mensaje strong {
+    font-size: 95%;
+    color: rgb(128, 44, 206);
+}
+
+.toast-mensaje span {
+    font-size: 85%;
+    color: rgb(80, 80, 80);
+}
+
+/*----------------------- Alertas Universales Elegantes -----------------------*/
+
+.mensaje-alerta {
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 90%;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    display: none; /* Oculto por defecto */
+    animation: aparecerAlerta 0.3s ease-in-out;
+}
+
+.alerta-error {
+    background-color: #ffe6e6;
+    color: #d9534f;
+    border: 1px solid #d9534f;
+}
+
+.alerta-exito {
+    background-color: #e6ffe6;
+    color: #27ae60;
+    border: 1px solid #27ae60;
+}
+
+@keyframes aparecerAlerta {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
