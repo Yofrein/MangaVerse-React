@@ -1,9 +1,11 @@
-import { useState } from 'react'
-
 //import './App.css'
+import { useEffect } from 'react'
 import Cabecera from './componentes/Cabecera'
 import Banner from './componentes/Banner'
 import Pie from './componentes/Pie'
+import ToastCarrito from './componentes/ToastCarrito'
+import RutaPrivada from './componentes/RutaPrivada'
+import { inicializarAdministrador } from './data/almacenamiento'
 
 import Home from './pages/Home'
 import Contacto from './pages/Contacto'
@@ -25,27 +27,30 @@ import Registro from './pages/Registro'
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    inicializarAdministrador()
+  }, [])
 
   return (
     <>
     <Banner></Banner>
     <Cabecera></Cabecera>
+    <ToastCarrito />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/contacto" element={<Contacto />} />
-      <Route path="/admin-clientes" element={<AdminClientes />} />
-      <Route path="/admin-dscto" element={<AdminDscto />} />
-      <Route path="/admin-pedidos" element={<AdminPedidos />} />
-      <Route path="/admin-productos" element={<AdminProductos />} />
-      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/admin-clientes" element={<RutaPrivada rol="admin"><AdminClientes /></RutaPrivada>} />
+      <Route path="/admin-dscto" element={<RutaPrivada rol="admin"><AdminDscto /></RutaPrivada>} />
+      <Route path="/admin-pedidos" element={<RutaPrivada rol="admin"><AdminPedidos /></RutaPrivada>} />
+      <Route path="/admin-productos" element={<RutaPrivada rol="admin"><AdminProductos /></RutaPrivada>} />
+      <Route path="/admin-dashboard" element={<RutaPrivada rol="admin"><AdminDashboard /></RutaPrivada>} />
       <Route path="/carrito" element={<Carrito />} />
       <Route path="/catalogo" element={<Catalogo />} />
       <Route path="/compra-exitosa" element={<CompraExitosa />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/mi-cuenta-contraseña" element={<MiCuentaContraseña />} />
-      <Route path="/mi-cuenta-pedidos" element={<MiCuentaPedidos />} />
-      <Route path="/mi-cuenta" element={<MiCuenta />} />
+      <Route path="/mi-cuenta-contraseña" element={<RutaPrivada><MiCuentaContraseña /></RutaPrivada>} />
+      <Route path="/mi-cuenta-pedidos" element={<RutaPrivada><MiCuentaPedidos /></RutaPrivada>} />
+      <Route path="/mi-cuenta" element={<RutaPrivada><MiCuenta /></RutaPrivada>} />
       <Route path="/quienes-somos" element={<QuienesSomos />} />
       <Route path="/registro" element={<Registro />} />
     </Routes>

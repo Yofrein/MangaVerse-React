@@ -1,16 +1,46 @@
-# React + Vite
+# MangaVerse
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tienda de manga de demostración creada con React y Vite. El proyecto es una SPA: las vistas se muestran mediante React Router y los datos de prueba se guardan en el navegador con `localStorage`.
 
-Currently, two official plugins are available:
+Para una explicación paso a paso de la estructura, rutas, Bootstrap, pruebas y acceso de demostración, consulta [GUIA-PARA-DESARROLLADORES.txt](./GUIA-PARA-DESARROLLADORES.txt).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Requisitos
 
-## React Compiler
+- Node.js y npm
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Ejecutar el proyecto
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Otros comandos disponibles:
+
+```bash
+npm test -- --run
+npm run lint
+npm run build
+npm run preview
+```
+
+## Estructura principal
+
+- `src/main.jsx`: inicia React, React Router, Bootstrap y los estilos globales.
+- `src/App.jsx`: define las rutas, el encabezado, el banner y el pie de página.
+- `src/pages/`: una página por vista (catálogo, carrito, cuenta, administración, entre otras).
+- `src/componentes/`: piezas reutilizables de la interfaz.
+- `src/data/`: catálogo inicial y funciones sencillas para guardar/leer datos del navegador.
+- `src/css/`: estilos del sitio, organizados por sección.
+- `src/test/`: pruebas de componentes y flujos básicos.
+- `public/img/`: imágenes usadas por las páginas.
+
+## Funcionalidades de demostración
+
+- El catálogo permite buscar y filtrar manga.
+- El carrito conserva productos, cantidades y cupones entre páginas; al finalizar registra una compra y actualiza el stock.
+- El registro, inicio de sesión, edición de perfil e historial de pedidos usan los datos del navegador.
+- El panel de administración permite gestionar productos, clientes y cupones, y consultar pedidos y métricas.
+- La cuenta inicial de administración es `admin` / `admin123`.
+
+Los datos están en `localStorage`; no existe servidor ni base de datos. Por eso las cuentas y contraseñas son solo para una demostración local y no se deben usar con información real. Para reiniciar los datos de prueba, limpia el almacenamiento del sitio desde las herramientas del navegador.

@@ -1,24 +1,70 @@
-/*Barra parte izquierda*/
+header,
+header .navbar {
+    width: 100%;
+    background-color: #000;
+}
+
+header .navbar {
+    display: block;
+    padding: 0;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 5px;
+    width: 100%;
+    max-width: 1600px;
+    min-height: 108px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    gap: clamp(12px, 1.5vw, 26px);
     background-color: black;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 100px;
+    padding: 12px clamp(24px, 4vw, 72px);
+}
+
+.nav-links > li {
+    min-width: 0;
+}
+
+.nav-links > li:first-child {
+    flex: 0 0 auto;
+}
+
+.nav-links > li:nth-child(5) {
+    flex: 1 1 250px;
+    max-width: 360px;
 }
 
 .nav-links a {
     color: rgb(255, 255, 255);
     text-decoration: none;
     font-family: 'Font1', consolas;
-    font-size: 180%;
+    font-size: clamp(1rem, 1.05vw, 1.25rem);
     font-weight: bold;
+    white-space: nowrap;
+}
+
+.nav-links .logo {
+    display: block;
+    width: auto;
+    height: 88px;
+    max-width: 150px;
+    margin: 0;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .nav-links a:hover {
     color: rgb(128, 44, 206);
+}
+
+.nav-links > li > button.nav-links-right {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font: inherit;
 }
 
 /*Barra parte derecha*/
@@ -33,22 +79,53 @@
     cursor: pointer;
 }
 
+.nav-links-right .nav-icon {
+    flex-shrink: 0;
+}
+
 .nav-icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 50px;
     height: 50px;
     object-fit: contain;
     display: block;
-    margin-bottom: 0 auto 4px;
+    margin: 0 auto 4px;
     filter: invert(100%);
 }
 
 .nav-links-right span {
     font-family: 'Font1', consolas;
-    font-size: 85%;
+    font-size: 0.95rem;
     font-weight: bold;
+}
+
+.nav-account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-account .cerrar-sesion {
+    padding: 3px 8px;
+    border: 1px solid rgb(128 44 206 / 60%);
+    border-radius: 6px;
+    background: transparent;
+    color: #e4d3f5;
+    font: inherit;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-account .cerrar-sesion:hover {
+    background: rgb(128, 44, 206);
+    color: #fff;
+}
+
+.nav-account .cerrar-sesion:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
 }
 
 .nav-links-right:hover {
@@ -65,12 +142,17 @@
 .search-box {
     display: flex;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box;
     background-color: rgb(128, 44, 206);
     border-radius: 10px;
     padding: 5px 10px;
 }
 
 .search-input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     background: transparent;
     border: none;
     outline: none;
@@ -78,7 +160,7 @@
     font-family: 'Font1', consolas;
     font-weight: bold;
     padding: 5px;
-    font-size: 130%;
+    font-size: 1rem;
 }
 
 .search-input::placeholder {

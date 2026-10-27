@@ -1,8 +1,20 @@
+import { useState } from 'react';
+import { Button, Table } from 'react-bootstrap';
+import { guardarDatos, leerDatos } from '../data/almacenamiento';
+import CerrarSesion from '../componentes/CerrarSesion';
 import '../css/estilos.css'
 import '../css/menu.css'
 import '../css/admin.css'
 
 function AdminCliente() {
+    const [clientes, setClientes] = useState(() => leerDatos('cuentasMangaVerse', []));
+    const eliminarCliente = (usuario) => {
+        if (!window.confirm(`¿Eliminar la cuenta de ${usuario}?`)) return;
+        const nuevosClientes = clientes.filter((cliente) => cliente.usuario !== usuario);
+        setClientes(nuevosClientes);
+        guardarDatos('cuentasMangaVerse', nuevosClientes);
+    };
+
     return (
         <main className="seccion-admin">
             <div className="contenedor-admin">
@@ -17,7 +29,7 @@ function AdminCliente() {
                         <li><a href="/admin-dscto">Cupones y Descuentos</a></li>
                         <li><a href="/admin-clientes" className="activo">Clientes Registrados</a></li>
                         <li><a href="/">Salir al sitio</a></li>
-                        <li><a href="#" id="btn-cerrar-sesion" className="cerrar-sesion">Cerrar sesión</a></li>
+                        <li><CerrarSesion /></li>
                     </ul>
                 </aside>
 
@@ -29,7 +41,7 @@ function AdminCliente() {
                     </div>
 
                     <div className="admin-tabla-container">
-                        <table className="tabla-admin-inventario">
+                        <Table responsive className="tabla-admin-inventario">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -40,9 +52,22 @@ function AdminCliente() {
                                 </tr>
                             </thead>
                             <tbody id="tabla-clientes-body">
-                                {/* Los clientes se cargarán dinámicamente desde el JS */}
+                                {clientes.length === 0 ? (
+                                    <tr><td colSpan="5">No hay clientes registrados actualmente.</td></tr>
+                                ) : clientes.map((cliente, indice) => (
+                                    <tr key={cliente.usuario}>
+                                        <td><strong>#{String(indice + 1).padStart(2, '0')}</strong></td>
+                                        <td>{`${cliente.nombre || ''} ${cliente.apellido || ''} (${cliente.usuario})`}</td>
+                                        <td>{cliente.correo || 'Sin correo'}</td>
+                                        <td>{cliente.rol === 'admin' ? 'Administrador' : 'Cliente'}</td>
+                                        <td>{cliente.rol === 'admin'
+                                            ? 'Sistema'
+                                            : <Button size="sm" variant="danger" onClick={() => eliminarCliente(cliente.usuario)}>Eliminar</Button>}
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
-                        </table>
+                        </Table>
                     </div>
                 </section>
 

@@ -316,10 +316,21 @@
 .banner-promocion {
     background-color: rgb(128, 44, 206);
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 42px;
+    box-sizing: border-box;
     text-align: center;
-    padding: 10px 15px;
+    padding: 8px 15px;
     font-size: 15px;
     font-weight: bold;
+}
+
+.banner-promocion p {
+    margin: 0;
+    line-height: 1.4;
 }
 
 .descripcion-manga {

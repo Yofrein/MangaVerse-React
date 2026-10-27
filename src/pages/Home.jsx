@@ -1,8 +1,31 @@
+import { useRef } from 'react'
 import '../css/estilos.css'
 import '../css/menu.css'
 import '../css/index.css'
+import BeneficioTienda from '../componentes/BeneficioTienda'
+import { agregarAlCarrito, formatearPrecio } from '../data/almacenamiento'
+import { mangas } from '../data/mangas'
 
 function Home() {
+    const pistaCarrusel = useRef(null);
+    const obtenerManga = (id) => mangas.find((manga) => manga.id === id);
+    const agregarManga = (id) => agregarAlCarrito(obtenerManga(id));
+    const mostrarPrecio = (id) => formatearPrecio(obtenerManga(id).precio);
+    const desplazarCarrusel = (direccion) => {
+        const pista = pistaCarrusel.current;
+        const tarjeta = pista?.querySelector('.recuadro-mangas');
+        if (!pista || !tarjeta) return;
+
+        const distancia = tarjeta.getBoundingClientRect().width + 20;
+        if (direccion > 0 && pista.scrollLeft + pista.clientWidth >= pista.scrollWidth - 50) {
+            pista.scrollTo({ left: 0, behavior: 'smooth' });
+        } else if (direccion < 0 && pista.scrollLeft <= 30) {
+            pista.scrollTo({ left: pista.scrollWidth, behavior: 'smooth' });
+        } else {
+            pista.scrollBy({ left: distancia * direccion, behavior: 'smooth' });
+        }
+    };
+
     return (
         <main>
             {/* Sección de Presentación / Banner Informativo */}
@@ -31,17 +54,17 @@ function Home() {
             <section className="seccion-mangas-nuevos">
                 <div className="carrusel-contenedor-general">
                     {/* Botón Izquierda */}
-                    <button className="carrusel-btn btn-prev" id="carrusel-prev">&#10094;</button>
+                    <button type="button" className="carrusel-btn btn-prev" id="carrusel-prev" aria-label="Mangas anteriores" onClick={() => desplazarCarrusel(-1)}>&#10094;</button>
 
                     {/* Pista deslizante del carrusel */}
-                    <div className="carrusel-pista" id="carrusel-pista">
+                    <div className="carrusel-pista" id="carrusel-pista" ref={pistaCarrusel}>
 
                         <div className="recuadro-mangas">
                             <div className="manga-info-izquierda">
                                 <h1>Berserk 01</h1>
                                 <p className="descripcion-manga">Edición definitiva de lujo</p>
-                                <h2>$10.000</h2>
-                                <button className="anadir-carrito">Añadir al carrito</button>
+                                <h2>{mostrarPrecio(6)}</h2>
+                                <button className="anadir-carrito" onClick={() => agregarManga(6)}>Añadir al carrito</button>
                             </div>
                             <div className="manga-imagen-derecha">
                                 <img src="img/Mangas/Berserk 01.jpg" alt="Berserk 01" />
@@ -52,8 +75,8 @@ function Home() {
                             <div className="manga-info-izquierda">
                                 <h1>Blue lock 11</h1>
                                 <p className="descripcion-manga">Arco de selección secundaria</p>
-                                <h2>$12.000</h2>
-                                <button className="anadir-carrito">Añadir al carrito</button>
+                                <h2>{mostrarPrecio(7)}</h2>
+                                <button className="anadir-carrito" onClick={() => agregarManga(7)}>Añadir al carrito</button>
                             </div>
                             <div className="manga-imagen-derecha">
                                 <img src="img/Mangas/Blue lock 11.jpg" alt="Blue lock 11" />
@@ -64,8 +87,8 @@ function Home() {
                             <div className="manga-info-izquierda">
                                 <h1>Blue period 06</h1>
                                 <p className="descripcion-manga">Exámenes de admisión de Tokio</p>
-                                <h2>$11.500</h2>
-                                <button className="anadir-carrito">Añadir al carrito</button>
+                                <h2>{mostrarPrecio(14)}</h2>
+                                <button className="anadir-carrito" onClick={() => agregarManga(14)}>Añadir al carrito</button>
                             </div>
                             <div className="manga-imagen-derecha">
                                 <img src="img/Mangas/Blue period 06.jpg" alt="Blue period 06" />
@@ -76,8 +99,8 @@ function Home() {
                             <div className="manga-info-izquierda">
                                 <h1>Chainsaw man 24</h1>
                                 <p className="descripcion-manga">Arco del Demonio de la Guerra</p>
-                                <h2>$12.000</h2>
-                                <button className="anadir-carrito">Añadir al carrito</button>
+                                <h2>{mostrarPrecio(3)}</h2>
+                                <button className="anadir-carrito" onClick={() => agregarManga(3)}>Añadir al carrito</button>
                             </div>
                             <div className="manga-imagen-derecha">
                                 <img src="img/Mangas/Chainsaw man 24.png" alt="Chainsaw man 24" />
@@ -87,32 +110,16 @@ function Home() {
                     </div>
 
                     {/* Botón Derecha */}
-                    <button className="carrusel-btn btn-next" id="carrusel-next">&#10095;</button>
+                    <button type="button" className="carrusel-btn btn-next" id="carrusel-next" aria-label="Mangas siguientes" onClick={() => desplazarCarrusel(1)}>&#10095;</button>
                 </div>
             </section>
 
             {/* Beneficios */}
             <section>
                 <div className="metricas">
-
-                    <div className="metrica-item">
-                        <img src="img/Dscto.png" alt="" className="metrica-imagen" />
-                        <strong>Envío gratis</strong>
-                        <p className="metrica-p">Por compras superiores a $50.000</p>
-                    </div>
-
-                    <div className="metrica-item">
-                        <img src="img/Envio.png" alt="" className="metrica-imagen" />
-                        <strong>Envíos a todo Chile</strong>
-                        <p className="metrica-p">Empaquetado seguro para tus mangas</p>
-                    </div>
-
-                    <div className="metrica-item">
-                        <img src="img/Tarjeta.png" alt="" className="metrica-imagen" />
-                        <strong>3 cuotas sin interés</strong>
-                        <p className="metrica-p">Paga con Transbank en 3 cuotas sin interés</p>
-                    </div>
-
+                    <BeneficioTienda imagen="img/Dscto.png" titulo="Envío gratis" descripcion="Por compras superiores a $50.000" />
+                    <BeneficioTienda imagen="img/Envio.png" titulo="Envíos a todo Chile" descripcion="Empaquetado seguro para tus mangas" />
+                    <BeneficioTienda imagen="img/Tarjeta.png" titulo="3 cuotas sin interés" descripcion="Paga con Transbank en 3 cuotas sin interés" />
                 </div>
             </section>
 
@@ -145,80 +152,80 @@ function Home() {
                         <img src="img/Mangas/Demon slayer 08.png" alt="Manga" className="imagen-masvendido" />
                         <h1>Demon slayer 08</h1>
                         <p className="descripcion-manga">Tren infinito</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(12)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(12)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/Golden kamuy 01.png" alt="Manga" className="imagen-masvendido" />
                         <h1>Golden Kamuy 01</h1>
                         <p className="descripcion-manga">Búsqueda de oro en Hokkaido</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(1)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(1)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/Inuyasha 25.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>Inuyasha 25</h1>
                         <p className="descripcion-manga">La perla de Shikon</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(5)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(5)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/Jujutsu kaisen 29.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>Jujutsu kaisen 29</h1>
                         <p className="descripcion-manga">Batalla decisiva en Shinjuku</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(2)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(2)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/Mashle 17.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>Mashle 17</h1>
                         <p className="descripcion-manga">Magia y músculos</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(8)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(8)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/My hero academia 05.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>My hero academia 05</h1>
                         <p className="descripcion-manga">Festival deportivo U.A.</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(13)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(13)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/One piece 59.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>One piece 59</h1>
                         <p className="descripcion-manga">Guerra de Marineford</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(4)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(4)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/Rurouni kenshin 12.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>Rurouni kenshin 12</h1>
                         <p className="descripcion-manga">Kyoto en llamas</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(11)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(11)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/Saint seya the lost canva 01.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>Saint seya: The lost canva 01</h1>
                         <p className="descripcion-manga">Guerra Santa del Siglo XVIII</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(10)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(10)}>Añadir al carrito</button>
                     </div>
 
                     <div className="recuadro-mangas-masvendidos">
                         <img src="img/Mangas/Shingeki 22.jpg" alt="Manga" className="imagen-masvendido" />
                         <h1>Shingeki no kyojin 22</h1>
                         <p className="descripcion-manga">Más allá de los muros</p>
-                        <h2>$10.000</h2>
-                        <button className="anadir-carrito-chico">Añadir al carrito</button>
+                        <h2>{mostrarPrecio(9)}</h2>
+                        <button className="anadir-carrito-chico" onClick={() => agregarManga(9)}>Añadir al carrito</button>
                     </div>
 
                 </div>

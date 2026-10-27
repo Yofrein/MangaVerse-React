@@ -7,7 +7,7 @@ function TarjetaManga({ manga, onAnadirCarrito }) {
 
     return (
         <div className="card-manga">
-            <img src={img} alt={titulo} />
+            <img src={img || manga.imagen} alt={titulo} />
             <h3>{titulo}</h3>
             <p className="precio">${precio.toLocaleString('es-CL')}</p>
             <button className="anadir-carrito" onClick={() => onAnadirCarrito(manga)}>

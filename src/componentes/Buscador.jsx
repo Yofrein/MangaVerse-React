@@ -5,11 +5,7 @@ function Buscador({ onBuscar }) {
 
     const manejarEnvio = (e) => {
         e.preventDefault(); // evita que la página se recargue
-        if (onBuscar) {
-            onBuscar(texto);
-        } else {
-            console.log('Buscando:', texto);
-        }
+        onBuscar?.(texto.trim());
     };
 
     return (
