@@ -15,6 +15,14 @@
     font-display: block;
 }
 
+body {
+    font-family: 'Font1';
+}
+
+input, button, textarea, select {
+    font-family: inherit;
+}
+
 * {
     margin: 0;
     padding: 0;

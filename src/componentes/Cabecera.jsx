@@ -1,7 +1,7 @@
+import Buscador from './Buscador';
 import '../css/estilos.css'
 import '../css/menu.css'
 import '../css/index.css'
-
 
 function Cabecera() {
 
@@ -18,12 +18,7 @@ function Cabecera() {
                         <li><a href="/quienes-somos">Quienes somos</a></li>
 
                         <li>
-                            <div className="search-box">
-                                <input type="text" placeholder="Buscar manga..." className="search-input" />
-                                <button type="submit" className="search-btn">
-                                    <img src="img/Buscador.png" alt="#" className="search-btn" />
-                                </button>
-                            </div>
+                            <Buscador />
                         </li>
 
                         <li>
