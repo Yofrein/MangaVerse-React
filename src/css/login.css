@@ -1,48 +1,19 @@
-/*Vista de Login Dividida*/
-
 .login-contenedor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: rgb(100, 100, 100);
-    padding: 40px 20px;
     min-height: calc(100vh - 120px);
 }
 
-.login-box {
-    display: flex;
-    background-color: rgb(255, 255, 255);
-    border-radius: 10px;
-    overflow: hidden;
-    width: 100%;
-    max-width: 1300px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Columna Izquierda: Imagen decorativa */
 .login-imagen {
-    flex: 1;
     background-color: rgb(49, 49, 49);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
 }
 
-.login-imagen img {
+.login-logo {
     width: 100%;
     max-width: 300px;
     height: auto;
-    object-fit: contain;
 }
 
-/* Columna Derecha: Formulario */
 .login-formulario {
-    flex: 1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     color: rgb(0, 0, 0);
 }
 
@@ -57,20 +28,18 @@
     margin-bottom: 25px;
 }
 
-.campo-grupo {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.campo-grupo label {
+/* Estilo para los componentes de react-bootstrap */
+.login-formulario .form-label {
+    display: block;
     font-size: 90%;
     font-weight: bold;
     margin-bottom: 5px;
-    color: rgb(49, 49, 49);
 }
 
-.campo-grupo input {
+.login-formulario .form-control {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
     padding: 10px;
     border: 1px solid rgb(180, 180, 180);
     border-radius: 5px;
@@ -78,11 +47,11 @@
     outline: none;
 }
 
-.campo-grupo input:focus {
+.login-formulario .form-control:focus {
     border-color: rgb(128, 44, 206);
 }
 
-.btn-login {
+.login-formulario .btn {
     background-color: rgb(49, 49, 49);
     color: white;
     padding: 12px;
@@ -91,49 +60,16 @@
     font-size: 110%;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
-.btn-login:hover {
+.login-formulario .btn:hover {
     background-color: rgb(128, 44, 206);
-}
-
-/*----------------------- Opciones Extras de Login -----------------------*/
-
-.login-opciones {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 85%;
-}
-
-.recordar-label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: rgb(80, 80, 80);
-    cursor: pointer;
-    font-size: 15px;
-}
-
-.link-olvido {
-    color: rgb(128, 44, 206);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.link-olvido:hover {
-    text-decoration: underline;
 }
 
 .texto-registro {
     text-align: center;
     margin-top: 20px;
-    font-size: 90%;
-    color: rgb(80, 80, 80);
 }
 
 .texto-registro a {
