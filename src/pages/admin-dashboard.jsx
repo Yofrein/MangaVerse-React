@@ -1,8 +1,17 @@
+import { Link } from 'react-router-dom';
+import { formatearPrecio, leerDatos, obtenerProductos } from '../data/almacenamiento';
+import CerrarSesion from '../componentes/CerrarSesion';
 import '../css/estilos.css'
 import '../css/menu.css'
 import '../css/admin.css'
 
 function AdminDashboard() {
+    const pedidos = leerDatos('pedidosMangaVerse', []);
+    const productos = obtenerProductos();
+    const ventas = pedidos.reduce((total, pedido) => total + Number(pedido.total || 0), 0);
+    const pendientes = pedidos.filter((pedido) => pedido.estado !== 'Completado').length;
+    const stock = productos.reduce((total, producto) => total + Number(producto.stock || 0), 0);
+
     return (
         <>
             <main className="seccion-admin">
@@ -18,7 +27,7 @@ function AdminDashboard() {
                             <li><a href="/admin-dscto">Cupones y Descuentos</a></li>
                             <li><a href="/admin-clientes">Clientes Registrados</a></li>
                             <li><a href="/">Salir al sitio</a></li>
-                            <li><a href="#" id="btn-cerrar-sesion" className="cerrar-sesion">Cerrar sesión</a></li>
+                            <li><CerrarSesion /></li>
                         </ul>
                     </aside>
 
@@ -34,15 +43,15 @@ function AdminDashboard() {
                         <div className="admin-metricas-grid">
                             <div className="metrica-card">
                                 <h3>Ventas del Mes</h3>
-                                <p className="valor-metrica">$450.000</p>
+                                <p className="valor-metrica">{formatearPrecio(ventas)}</p>
                             </div>
                             <div className="metrica-card">
                                 <h3>Pedidos Pendientes</h3>
-                                <p className="valor-metrica">8</p>
+                                <p className="valor-metrica">{pendientes}</p>
                             </div>
                             <div className="metrica-card">
                                 <h3>Mangas en Stock</h3>
-                                <p className="valor-metrica">124</p>
+                                <p className="valor-metrica">{stock}</p>
                             </div>
                         </div>
 
@@ -50,7 +59,7 @@ function AdminDashboard() {
                         <div className="admin-tabla-container">
                             <div className="tabla-acciones-superior">
                                 <h3>Inventario Rápido</h3>
-                                <button className="btn-nuevo-producto">+ Agregar Nuevo Manga</button>
+                                <Link to="/admin-productos" className="btn-nuevo-producto">Gestionar productos</Link>
                             </div>
 
                             <table className="tabla-admin-inventario">
@@ -64,36 +73,15 @@ function AdminDashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><img src="img/Mangas/Berserk 01.jpg" alt="Manga" className="img-tabla-manga" /></td>
-                                        <td>Berserk 01</td>
-                                        <td>$10.000</td>
-                                        <td>15</td>
-                                        <td>
-                                            <button className="btn-accion editar">Editar</button>
-                                            <button className="btn-accion eliminar">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="img/Mangas/Chainsaw man 24.png" alt="Manga" className="img-tabla-manga" /></td>
-                                        <td>Chainsaw Man 24</td>
-                                        <td>$10.000</td>
-                                        <td>22</td>
-                                        <td>
-                                            <button className="btn-accion editar">Editar</button>
-                                            <button className="btn-accion eliminar">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="img/Mangas/Jujutsu kaisen 29.jpg" alt="Manga" className="img-tabla-manga" /></td>
-                                        <td>Jujutsu Kaisen 29</td>
-                                        <td>$10.000</td>
-                                        <td>9</td>
-                                        <td>
-                                            <button className="btn-accion editar">Editar</button>
-                                            <button className="btn-accion eliminar">Eliminar</button>
-                                        </td>
-                                    </tr>
+                                    {productos.slice(0, 5).map((producto) => (
+                                        <tr key={producto.id}>
+                                            <td><img src={producto.imagen || producto.img} alt={producto.titulo} className="img-tabla-manga" /></td>
+                                            <td>{producto.titulo}</td>
+                                            <td>{formatearPrecio(producto.precio)}</td>
+                                            <td>{producto.stock}</td>
+                                            <td><Link to="/admin-productos" className="btn-accion editar">Editar</Link></td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>

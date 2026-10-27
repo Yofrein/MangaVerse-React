@@ -1,11 +1,19 @@
 import { useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import { useSearchParams } from 'react-router-dom';
+import { agregarAlCarrito, obtenerProductos } from '../data/almacenamiento';
+import FiltroCatalogo from '../componentes/FiltroCatalogo';
+import MensajeVacio from '../componentes/MensajeVacio';
 import TarjetaManga from '../componentes/TarjetaManga';
-import { mangas } from '../data/mangas';
+import TituloSeccion from '../componentes/TituloSeccion';
 import '../css/estilos.css';
 import '../css/menu.css';
 import '../css/catalogo.css';
 
 function Catalogo() {
+    const [parametros] = useSearchParams();
+    const [mangas] = useState(() => obtenerProductos());
+    const termino = (parametros.get('buscar') || '').toLocaleLowerCase('es');
     const [genero, setGenero] = useState('');
     const [editorial, setEditorial] = useState('');
     const [rangoPrecio, setRangoPrecio] = useState('');
@@ -13,12 +21,13 @@ function Catalogo() {
 
     const cumplePrecio = (precio) => {
         if (rangoPrecio === '') return true;
-        if (rangoPrecio.endsWith('+')) return precio > parseInt(rangoPrecio);
+        if (rangoPrecio.endsWith('+')) return precio >= parseInt(rangoPrecio);
         const [min, max] = rangoPrecio.split('-').map(Number);
         return precio >= min && precio <= max;
     };
 
     const mangasFiltrados = mangas.filter((m) =>
+        m.titulo.toLocaleLowerCase('es').includes(termino) &&
         (genero === '' || m.genero === genero) &&
         (editorial === '' || m.editorial === editorial) &&
         (autor === '' || m.autor === autor) &&
@@ -26,123 +35,92 @@ function Catalogo() {
     );
 
     const manejarAnadirCarrito = (manga) => {
-        console.log('Añadido al carrito:', manga.titulo);
+        agregarAlCarrito(manga);
     };
+
+    const opcionesGenero = [
+        { valor: '', etiqueta: 'Todos los géneros' },
+        { valor: 'shonen', etiqueta: 'Shonen' },
+        { valor: 'seinen', etiqueta: 'Seinen' },
+        { valor: 'shojo', etiqueta: 'Shojo' },
+        { valor: 'romance', etiqueta: 'Romance' },
+        { valor: 'terror', etiqueta: 'Terror' },
+    ];
+    const opcionesEditorial = [
+        { valor: '', etiqueta: 'Todas las editoriales' },
+        { valor: 'ivrea', etiqueta: 'Ivrea' },
+        { valor: 'panini', etiqueta: 'Panini Manga' },
+        { valor: 'norma', etiqueta: 'Norma Editorial' },
+        { valor: 'ovni', etiqueta: 'Ovni Press' },
+        { valor: 'distrito', etiqueta: 'Distrito Manga' },
+        { valor: 'milkyway', etiqueta: 'Milky Way Ediciones' },
+        { valor: 'planeta', etiqueta: 'Planeta Cómic' },
+        { valor: 'viz', etiqueta: 'Viz Media' },
+        { valor: 'arechi', etiqueta: 'Arechi Manga' },
+        { valor: 'satori', etiqueta: 'Satori Ediciones' },
+    ];
+    const opcionesPrecio = [
+        { valor: '', etiqueta: 'Todos los precios' },
+        { valor: '0-9999', etiqueta: 'Hasta $9.999' },
+        { valor: '10000-14999', etiqueta: '$10.000 - $14.999' },
+        { valor: '15000-19999', etiqueta: '$15.000 - $19.999' },
+        { valor: '20000+', etiqueta: '$20.000 o más' },
+    ];
+    const opcionesAutor = [
+        { valor: '', etiqueta: 'Todos los autores' },
+        { valor: 'kentaro-miura', etiqueta: 'Kentaro Miura (Berserk)' },
+        { valor: 'muneyuki-kaneshiro', etiqueta: 'Muneyuki Kaneshiro (Blue Lock)' },
+        { valor: 'tsubasa-yamaguchi', etiqueta: 'Tsubasa Yamaguchi (Blue Period)' },
+        { valor: 'tatsuki-fujimoto', etiqueta: 'Tatsuki Fujimoto (Chainsaw Man)' },
+        { valor: 'koyoharu-gotouge', etiqueta: 'Koyoharu Gotouge (Demon Slayer)' },
+        { valor: 'satoru-noda', etiqueta: 'Satoru Noda (Golden Kamuy)' },
+        { valor: 'rumiko-takahashi', etiqueta: 'Rumiko Takahashi (Inuyasha)' },
+        { valor: 'gege-akutami', etiqueta: 'Gege Akutami (Jujutsu Kaisen)' },
+        { valor: 'hajime-komoto', etiqueta: 'Hajime Komoto (Mashle)' },
+        { valor: 'kohei-horikoshi', etiqueta: 'Kohei Horikoshi (My Hero Academia)' },
+        { valor: 'eiichiro-oda', etiqueta: 'Eiichiro Oda (One Piece)' },
+        { valor: 'nobuhiro-watsuki', etiqueta: 'Nobuhiro Watsuki (Rurouni Kenshin)' },
+        { valor: 'masami-kurumada', etiqueta: 'Masami Kurumada (Saint Seiya)' },
+        { valor: 'hajime-isayama', etiqueta: 'Hajime Isayama (Shingeki no Kyojin)' },
+    ];
 
     return (
         <>
-
-            <section>
-                <h1 className="titulo-seccion">
-                    <span>Catálogo</span>
-                </h1>
-            </section>
+            <TituloSeccion>Catálogo</TituloSeccion>
             
             <main className="seccion-catalogo">
-                <div className="contenedor-catalogo">
-
-                    {/*Filtros*/}
-                    <section className="panel-filtros">
-                        <h1>Filtros</h1>
-
-                        <div className="grupo-filtro">
-                            <h2>Genero</h2>
-                            <select
-                                id="cboGenero"
-                                className="desplegable-filtro"
-                                value={genero}
-                                onChange={(e) => setGenero(e.target.value)}
-                            >
-                                <option value="">Todos los géneros</option>
-                                <option value="shonen">Shonen</option>
-                                <option value="seinen">Seinen</option>
-                                <option value="shojo">Shojo</option>
-                                <option value="romance">Romance</option>
-                                <option value="terror">Terror</option>
-                            </select>
-                        </div>
-
-                        <div className="grupo-filtro">
-                            <h2>Editorial</h2>
-                            <select
-                                id="cboEditorial"
-                                className="desplegable-filtro"
-                                value={editorial}
-                                onChange={(e) => setEditorial(e.target.value)}
-                            >
-                                <option value="">Todas las editoriales</option>
-                                <option value="ivrea">Ivrea</option>
-                                <option value="panini">Panini Manga</option>
-                                <option value="norma">Norma Editorial</option>
-                                <option value="ovni">Ovni Press</option>
-                                <option value="distrito">Distrito Manga</option>
-                                <option value="milkyway">Milky Way Ediciones</option>
-                                <option value="planeta">Planeta Cómic</option>
-                                <option value="viz">Viz Media</option>
-                                <option value="arechi">Arechi Manga</option>
-                                <option value="satori">Satori Ediciones</option>
-                            </select>
-                        </div>
-
-                        <div className="grupo-filtro">
-                            <h2>Rango de Precio</h2>
-                            <select
-                                id="cboPrecio"
-                                className="desplegable-filtro"
-                                value={rangoPrecio}
-                                onChange={(e) => setRangoPrecio(e.target.value)}
-                            >
-                                <option value="">Todos los precios</option>
-                                <option value="0-10000">Hasta $10.000</option>
-                                <option value="10000-20000">$10.000 - $20.000</option>
-                                <option value="20000-30000">$20.000 - $30.000</option>
-                                <option value="30000-40000">$30.000 - $40.000</option>
-                                <option value="40000-50000">$40.000 - $50.000</option>
-                                <option value="50000-70000">$50.000 - $70.000</option>
-                                <option value="70000-100000">$70.000 - $100.000</option>
-                                <option value="100000+">Más de $100.000</option>
-                            </select>
-                        </div>
-
-                        <div className="grupo-filtro">
-                            <h2>Autor</h2>
-                            <select
-                                id="cboAutor"
-                                className="desplegable-filtro"
-                                value={autor}
-                                onChange={(e) => setAutor(e.target.value)}
-                            >
-                                <option value="">Todos los autores</option>
-                                <option value="kentaro-miura">Kentaro Miura (Berserk)</option>
-                                <option value="muneyuki-kaneshiro">Muneyuki Kaneshiro (Blue Lock)</option>
-                                <option value="tsubasa-yamaguchi">Tsubasa Yamaguchi (Blue Period)</option>
-                                <option value="tatsuki-fujimoto">Tatsuki Fujimoto (Chainsaw Man)</option>
-                                <option value="koyoharu-gotouge">Koyoharu Gotouge (Demon Slayer)</option>
-                                <option value="satoru-noda">Satoru Noda (Golden Kamuy)</option>
-                                <option value="rumiko-takahashi">Rumiko Takahashi (Inuyasha)</option>
-                                <option value="gege-akutami">Gege Akutami (Jujutsu Kaisen)</option>
-                                <option value="hajime-komoto">Hajime Komoto (Mashle)</option>
-                                <option value="kohei-horikoshi">Kohei Horikoshi (My Hero Academia)</option>
-                                <option value="eiichiro-oda">Eiichiro Oda (One Piece)</option>
-                                <option value="nobuhiro-watsuki">Nobuhiro Watsuki (Rurouni Kenshin)</option>
-                                <option value="masami-kurumada">Masami Kurumada (Saint Seiya)</option>
-                                <option value="hajime-isayama">Hajime Isayama (Shingeki no Kyojin)</option>
-                            </select>
-                        </div>
-                    </section>
-
-                    {/*Grilla de mangas*/}
-                    <section className="catalogo-grid">
-                        {mangasFiltrados.map((manga) => (
-                            <TarjetaManga
-                                key={manga.id}
-                                manga={manga}
-                                onAnadirCarrito={manejarAnadirCarrito}
-                            />
-                        ))}
-                    </section>
-
-                </div>
+                <Container fluid>
+                    <Row className="g-4">
+                        <Col lg={3} className="columna-filtros">
+                            <section className="panel-filtros">
+                                <h2 className="panel-filtros-titulo">Filtros</h2>
+                                <FiltroCatalogo id="cboGenero" titulo="Género" valor={genero} opciones={opcionesGenero} onCambiar={setGenero} />
+                                <FiltroCatalogo id="cboEditorial" titulo="Editorial" valor={editorial} opciones={opcionesEditorial} onCambiar={setEditorial} />
+                                <FiltroCatalogo id="cboPrecio" titulo="Rango de precio" valor={rangoPrecio} opciones={opcionesPrecio} onCambiar={setRangoPrecio} />
+                                <FiltroCatalogo id="cboAutor" titulo="Autor" valor={autor} opciones={opcionesAutor} onCambiar={setAutor} />
+                            </section>
+                        </Col>
+                        <Col lg={9}>
+                            {mangasFiltrados.length === 0 ? (
+                                <MensajeVacio
+                                    titulo="No encontramos mangas"
+                                    mensaje="Prueba cambiando o quitando alguno de los filtros."
+                                />
+                            ) : (
+                                <Row xs={1} sm={2} xl={3} className="g-3">
+                                    {mangasFiltrados.map((manga) => (
+                                        <Col key={manga.id}>
+                                            <TarjetaManga
+                                                manga={manga}
+                                                onAnadirCarrito={manejarAnadirCarrito}
+                                            />
+                                        </Col>
+                                    ))}
+                                </Row>
+                            )}
+                        </Col>
+                    </Row>
+                </Container>
             </main>
         </>
     );

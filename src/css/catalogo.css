@@ -34,16 +34,17 @@
 .panel-filtros {
     background-color: #222;
     border-radius: 10px;
-    width: 240px;
+    width: 100%;
+    max-width: 280px;
+    box-sizing: border-box;
     min-height: 400px;
     flex-shrink: 0;
 }
 
-.panel-filtros h1 {
-    font-size: 40px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding-bottom: 8px;
+.panel-filtros .panel-filtros-titulo {
+    font-size: 26px;
+    margin: 18px 0 8px;
+    padding-bottom: 0;
     text-align: center;
     color: #fdfdfd;
 }
@@ -59,6 +60,17 @@
 .grupo-filtro {
     padding: 20px;
     color: white;
+}
+
+.columna-filtros {
+    display: flex;
+    justify-content: center;
+}
+
+.grupo-filtro label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
 /*Estilo para la barra desplegable*/

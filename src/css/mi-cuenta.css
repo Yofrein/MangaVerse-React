@@ -36,31 +36,42 @@
     margin: 0;
 }
 
-.cuenta-links-menu li a {
+.cuenta-links-menu li a,
+.cuenta-links-menu li button {
     display: block;
     padding: 15px 25px;
     color: #ccc;
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
+    font-family: inherit;
     transition: all 0.3s ease;
     border-left: 4px solid transparent;
 }
 
 .cuenta-links-menu li a:hover,
+.cuenta-links-menu li button:hover,
 .cuenta-links-menu li a.activo {
     background-color: #333;
     color: white;
     border-left-color: rgb(128, 44, 206);
 }
 
-.cuenta-links-menu li a.cerrar-sesion {
+.cuenta-links-menu li a.cerrar-sesion,
+.cuenta-links-menu li button.cerrar-sesion {
     color: #ff4757;
     margin-top: 20px;
     border-top: 1px solid #444;
+    background: transparent;
+    border-right: 0;
+    border-bottom: 0;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
 }
 
-.cuenta-links-menu li a.cerrar-sesion:hover {
+.cuenta-links-menu li a.cerrar-sesion:hover,
+.cuenta-links-menu li button.cerrar-sesion:hover {
     background-color: #3a1c1c;
     border-left-color: #ff4757;
 }

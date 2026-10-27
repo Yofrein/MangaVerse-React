@@ -3,6 +3,10 @@ import '../css/menu.css'
 import '../css/mi-cuenta.css'
 
 function MiCuentaPedidos() {
+    const cuenta = obtenerCuentaActiva();
+    const pedidos = leerDatos('pedidosMangaVerse', [])
+        .filter((pedido) => pedido.usuario === cuenta?.usuario);
+
     return (
         <>
             <main className="seccion-cuenta">
@@ -16,7 +20,7 @@ function MiCuentaPedidos() {
                             <li><a href="/mi-cuenta-contraseña">Cambiar contraseña</a></li>
                             <li><a href="/mi-cuenta-pedidos" className="activo">Mis pedidos</a></li>
                             <li><a href="/">Salir al sitio</a></li>
-                            <li><a href="#" id="btn-cerrar-sesion" className="cerrar-sesion">Cerrar sesión</a></li>
+                            <li><CerrarSesion /></li>
                         </ul>
                     </aside>
 
@@ -40,20 +44,17 @@ function MiCuentaPedidos() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><strong>#MV-1048</strong></td>
-                                        <td>20/10/2026</td>
-                                        <td>Berserk 01, Chainsaw Man 24</td>
-                                        <td>$23.000</td>
-                                        <td><span className="estado-pedido estado-camino">En camino</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#MV-1012</strong></td>
-                                        <td>05/09/2026</td>
-                                        <td>Jujutsu Kaisen 29</td>
-                                        <td>$13.000</td>
-                                        <td><span className="estado-pedido estado-entregado">Entregado</span></td>
-                                    </tr>
+                                    {pedidos.length === 0 ? (
+                                        <tr><td colSpan="5">Todavía no tienes pedidos.</td></tr>
+                                    ) : pedidos.map((pedido) => (
+                                        <tr key={pedido.id}>
+                                            <td><strong>{pedido.id}</strong></td>
+                                            <td>{pedido.fecha}</td>
+                                            <td>{pedido.productos.map((producto) => `${producto.nombre} × ${producto.cantidad}`).join(', ')}</td>
+                                            <td>{formatearPrecio(pedido.total)}</td>
+                                            <td><span className="estado-pedido estado-entregado">{pedido.estado}</span></td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
@@ -66,3 +67,5 @@ function MiCuentaPedidos() {
 }
 
 export default MiCuentaPedidos
+import CerrarSesion from '../componentes/CerrarSesion';
+import { formatearPrecio, obtenerCuentaActiva, leerDatos } from '../data/almacenamiento';
