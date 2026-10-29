@@ -123,6 +123,31 @@
     font-weight: bold;
 }
 
+.precio-producto {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+}
+
+.precio-producto-original,
+.precio-producto del {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.precio-producto-oferta {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.precio-producto-descuento {
+    color: #dc3545;
+    font-size: 0.85em;
+}
+
 /* Botón "Añadir al carrito" idéntico al de más vendidos del index */
 .card-manga .anadir-carrito {
     background-color: #313131;

@@ -13,6 +13,15 @@ export function formatearPrecio(precio) {
     return `$${Number(precio).toLocaleString('es-CL')}`;
 }
 
+export function calcularPrecioOferta(producto) {
+    const precio = Number(producto.precio);
+    const descuento = Number(producto.descuentoPorcentaje);
+
+    return producto.ofertaActiva && descuento > 0 && descuento < 100
+        ? Math.round(precio * (1 - descuento / 100))
+        : precio;
+}
+
 export function obtenerCuentaActiva() {
     const usuarioActivo = localStorage.getItem('usuarioMangaVerse');
     if (!usuarioActivo) return null;
@@ -52,6 +61,8 @@ export function obtenerProductos() {
             img: producto.img || producto.imagen,
             imagen: producto.imagen || producto.img,
             stock: Number(producto.stock) || 0,
+            ofertaActiva: Boolean(producto.ofertaActiva),
+            descuentoPorcentaje: Number(producto.descuentoPorcentaje) || 0,
         }));
     }
 
@@ -82,19 +93,29 @@ export function inicializarAdministrador() {
 
 export function agregarAlCarrito(manga) {
     const carrito = leerDatos('carritoMangaVerse', []);
+    const precio = calcularPrecioOferta(manga);
+    const tieneOferta = precio < Number(manga.precio);
     const item = carrito.find((producto) =>
         producto.nombre.toLocaleLowerCase('es') === manga.titulo.toLocaleLowerCase('es'),
     );
 
     if (item) {
         item.cantidad += 1;
+        item.precio = precio;
+        if (tieneOferta) {
+            item.precioOriginal = Number(manga.precio);
+        } else {
+            delete item.precioOriginal;
+        }
     } else {
-        carrito.push({
+        const nuevoItem = {
             nombre: manga.titulo,
-            precio: Number(manga.precio),
+            precio,
             imagen: manga.imagen || manga.img,
             cantidad: 1,
-        });
+        };
+        if (tieneOferta) nuevoItem.precioOriginal = Number(manga.precio);
+        carrito.push(nuevoItem);
     }
 
     guardarDatos('carritoMangaVerse', carrito);

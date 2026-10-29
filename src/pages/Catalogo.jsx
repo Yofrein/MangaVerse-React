@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
-import { agregarAlCarrito, obtenerProductos } from '../data/almacenamiento';
+import { agregarAlCarrito, calcularPrecioOferta, obtenerProductos } from '../data/almacenamiento';
 import FiltroCatalogo from '../componentes/FiltroCatalogo';
 import MensajeVacio from '../componentes/MensajeVacio';
 import TarjetaManga from '../componentes/TarjetaManga';
@@ -31,7 +31,7 @@ function Catalogo() {
         (genero === '' || m.genero === genero) &&
         (editorial === '' || m.editorial === editorial) &&
         (autor === '' || m.autor === autor) &&
-        cumplePrecio(m.precio)
+        cumplePrecio(calcularPrecioOferta(m))
     );
 
     const manejarAnadirCarrito = (manga) => {

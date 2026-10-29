@@ -137,7 +137,16 @@ function Carrito() {
                                                             <Button size="sm" variant="outline-dark" aria-label={`Agregar uno de ${producto.nombre}`} onClick={() => actualizarCarrito(carrito.map((item, index) => index === indice ? { ...item, cantidad: item.cantidad + 1 } : item))}>+</Button>
                                                         </div>
                                                     </td>
-                                                    <td>{formatearPrecio(producto.precio * producto.cantidad)}</td>
+                                                    <td>
+                                                        {producto.precioOriginal > producto.precio && (
+                                                            <del className="precio-producto-original">
+                                                                {formatearPrecio(producto.precioOriginal * producto.cantidad)}
+                                                            </del>
+                                                        )}
+                                                        <span className={producto.precioOriginal > producto.precio ? 'precio-producto-oferta' : ''}>
+                                                            {formatearPrecio(producto.precio * producto.cantidad)}
+                                                        </span>
+                                                    </td>
                                                     <td>
                                                         <Button variant="danger" size="sm" onClick={() => actualizarCarrito(carrito.filter((_, index) => index !== indice))}>Eliminar</Button>
                                                     </td>
