@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { formatearPrecio, leerDatos, obtenerProductos } from '../data/almacenamiento';
 import CerrarSesion from '../componentes/CerrarSesion';
+import PrecioProducto from '../componentes/PrecioProducto';
 import '../css/estilos.css'
 import '../css/menu.css'
 import '../css/admin.css'
@@ -77,7 +78,7 @@ function AdminDashboard() {
                                         <tr key={producto.id}>
                                             <td><img src={producto.imagen || producto.img} alt={producto.titulo} className="img-tabla-manga" /></td>
                                             <td>{producto.titulo}</td>
-                                            <td>{formatearPrecio(producto.precio)}</td>
+                                            <td><PrecioProducto producto={producto} /></td>
                                             <td>{producto.stock}</td>
                                             <td><Link to="/admin-productos" className="btn-accion editar">Editar</Link></td>
                                         </tr>

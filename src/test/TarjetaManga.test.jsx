@@ -24,6 +24,19 @@ describe('TarjetaManga', () => {
         expect(screen.getByText(/10\.000/)).toBeInTheDocument();
     });
 
+    it('muestra el precio original tachado y el precio de oferta', () => {
+        render(
+            <TarjetaManga
+                manga={{ ...manga, ofertaActiva: true, descuentoPorcentaje: 20 }}
+                onAnadirCarrito={() => {}}
+            />,
+        );
+
+        expect(screen.getByLabelText('Precio original')).toHaveTextContent('$10.000');
+        expect(screen.getByLabelText('Precio oferta')).toHaveTextContent('$8.000');
+        expect(screen.getByText('(20% de descuento)')).toBeInTheDocument();
+    });
+
     it('muestra la imagen con su texto alternativo', () => {
         render(<TarjetaManga manga={manga} onAnadirCarrito={() => {}} />);
         const imagen = screen.getByAltText('Berserk 01');

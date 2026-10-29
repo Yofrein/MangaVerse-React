@@ -3,14 +3,16 @@ import '../css/estilos.css'
 import '../css/menu.css'
 import '../css/index.css'
 import BeneficioTienda from '../componentes/BeneficioTienda'
-import { agregarAlCarrito, formatearPrecio } from '../data/almacenamiento'
+import { agregarAlCarrito, obtenerProductos } from '../data/almacenamiento'
 import { mangas } from '../data/mangas'
+import PrecioProducto from '../componentes/PrecioProducto'
 
 function Home() {
     const pistaCarrusel = useRef(null);
-    const obtenerManga = (id) => mangas.find((manga) => manga.id === id);
+    const productos = obtenerProductos();
+    const obtenerManga = (id) => productos.find((manga) => manga.id === id) || mangas.find((manga) => manga.id === id);
     const agregarManga = (id) => agregarAlCarrito(obtenerManga(id));
-    const mostrarPrecio = (id) => formatearPrecio(obtenerManga(id).precio);
+    const mostrarPrecio = (id) => <PrecioProducto producto={obtenerManga(id)} />;
     const desplazarCarrusel = (direccion) => {
         const pista = pistaCarrusel.current;
         const tarjeta = pista?.querySelector('.recuadro-mangas');
