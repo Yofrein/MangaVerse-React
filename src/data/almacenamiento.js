@@ -55,6 +55,7 @@ export function obtenerCuentaActiva() {
 export function obtenerProductos() {
     const productosGuardados = leerDatos('productosMangaVerse', null);
     if (productosGuardados) {
+        const mangasPorId = new Map(mangas.map((manga) => [manga.id, manga]));
         const preciosPorTitulo = new Map(
             mangas.map((manga) => [manga.titulo.toLocaleLowerCase('es'), manga.precio]),
         );
@@ -75,15 +76,39 @@ export function obtenerProductos() {
             localStorage.setItem('preciosCatalogoMangaVerseV2', 'true');
         }
 
-        return productosActualizados.map((producto, indice) => ({
-            ...producto,
-            id: producto.id ?? indice + 1,
-            img: producto.img || producto.imagen,
-            imagen: producto.imagen || producto.img,
-            stock: Number(producto.stock) || 0,
-            ofertaActiva: Boolean(producto.ofertaActiva),
-            descuentoPorcentaje: Number(producto.descuentoPorcentaje) || 0,
-        }));
+        return productosActualizados.map((producto, indice) => {
+            const productoCatalogoCandidato = mangasPorId.get(producto.id ?? indice + 1);
+            const productoCatalogo = productoCatalogoCandidato?.titulo.toLocaleLowerCase('es') ===
+                producto.titulo?.toLocaleLowerCase('es')
+                ? productoCatalogoCandidato
+                : undefined;
+            const destacadoCarrusel = producto.destacadoCarrusel ?? productoCatalogo?.destacadoCarrusel;
+            const masVendido = producto.masVendido ?? productoCatalogo?.masVendido;
+            return {
+                ...producto,
+                id: producto.id ?? indice + 1,
+                img: producto.img || producto.imagen,
+                imagen: producto.imagen || producto.img,
+                stock: Number(producto.stock) || 0,
+                ofertaActiva: Boolean(producto.ofertaActiva),
+                descuentoPorcentaje: Number(producto.descuentoPorcentaje) || 0,
+                ...(producto.descripcion === undefined && productoCatalogo?.descripcion
+                    ? { descripcion: productoCatalogo.descripcion }
+                    : {}),
+                ...(destacadoCarrusel
+                    ? {
+                        destacadoCarrusel,
+                        ordenCarrusel: producto.ordenCarrusel ?? productoCatalogo?.ordenCarrusel,
+                    }
+                    : {}),
+                ...(masVendido
+                    ? {
+                        masVendido,
+                        ordenMasVendido: producto.ordenMasVendido ?? productoCatalogo?.ordenMasVendido,
+                    }
+                    : {}),
+            };
+        });
     }
 
     const productosIniciales = mangas.map((manga) => ({

@@ -146,8 +146,24 @@
     gap: 30px;
 }
 
-/* Lado izquierdo (Cuadro blanco con textos y botón) */
-.manga-info-izquierda {
+/* Tarjeta de carrusel con imagen a la izquierda y texto a la derecha */
+.manga-imagen-izquierda {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.manga-imagen-izquierda img {
+    width: 260px;
+    height: 360px;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.manga-info-derecha {
     flex: 1;
     text-align: left;
     display: flex;
@@ -155,46 +171,27 @@
     justify-content: center;
 }
 
-.manga-info-izquierda h1 {
+.manga-info-derecha h1 {
     font-size: 28px;
     margin: 0 0 10px;
     color: #111;
     font-weight: bold;
 }
 
-.manga-info-izquierda .descripcion-manga {
+.manga-info-derecha .descripcion-manga {
     font-size: 15px;
     color: #666;
     margin: 0 0 15px;
 }
 
-.manga-info-izquierda h2 {
+.manga-info-derecha h2 {
     font-size: 24px;
     color: rgb(128, 44, 206);
     margin: 0 0 20px;
     font-weight: bold;
 }
 
-/* Lado derecho (Imagen grande del manga) */
-.manga-imagen-derecha {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.manga-imagen-derecha img {
-    max-width: 100%;
-    width: 260px;
-    height: 360px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    display: block;
-}
-
-/* Botón de añadir al carrito adaptado al nuevo bloque */
-.manga-info-izquierda .anadir-carrito {
+.manga-info-derecha .anadir-carrito {
     font-size: 16px;
     padding: 12px;
     border-radius: 8px;
@@ -208,7 +205,7 @@
     max-width: 220px;
 }
 
-.manga-info-izquierda .anadir-carrito:hover {
+.manga-info-derecha .anadir-carrito:hover {
     background-color: rgb(128, 44, 206);
 }
 

@@ -303,28 +303,28 @@ main {
     }
 
     .recuadro-mangas {
-        flex-direction: column-reverse;
+        flex-direction: column;
         gap: 16px;
         padding: 18px;
     }
 
-    .manga-info-izquierda,
-    .manga-imagen-derecha {
+    .manga-info-derecha,
+    .manga-imagen-izquierda {
         width: 100%;
         min-width: 0;
     }
 
-    .manga-imagen-derecha img {
+    .manga-imagen-izquierda img {
         width: auto;
         max-width: 100%;
         height: 230px;
     }
 
-    .manga-info-izquierda h1 {
+    .manga-info-derecha h1 {
         font-size: 1.35rem;
     }
 
-    .manga-info-izquierda .anadir-carrito {
+    .manga-info-derecha .anadir-carrito {
         max-width: none;
     }
 
